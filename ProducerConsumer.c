@@ -43,12 +43,13 @@ int main() {
     pthread_create (&producer_t, NULL, producer,
                     (void *)&producer_id);
 
+    // Wait until the Produce finishes the demo
     pthread_join(producer_t, NULL);
 }
 
 void *producer (void *id) {
     int producer_id = *(int *)id;
-    int i = 10000; // Run for 10,000 iterations
+    int i = 1000; // Run for 1,000 iterations
     int event_wait_time;
 
     printf ("Producer started, ID: %d\n", producer_id);
@@ -84,15 +85,15 @@ void *consumer (void *id) {
 
     while ( 1 ) {
 
-        // Wait for the consumer to start/be ready
+        // Wait for an item to be available
         sem_wait ( &item_ready );
 
         // Get exclusive use of the buffer
         pthread_mutex_lock ( &buf_mutex );
-        printf ("Buffer value: %i\n", buffer);
+        printf ("Buffer item: %i\n", buffer);
         pthread_mutex_unlock ( &buf_mutex );
 
-        // Let producer know we are ready for another value
+        // Let producer know we are ready for another item
         sem_post ( &consumer_ready );
     }
 }
