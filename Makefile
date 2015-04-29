@@ -1,6 +1,9 @@
 LIBS = -lpthread
 
-all: DiningPhilosopher CigaretteSmokers
+all: ProducerConsumer DiningPhilosopher CigaretteSmokers
+
+ProducerConsumer: ProducerConsumer.c
+	$(CC) $? $(LIBS) -o $@
 
 DiningPhilosopher: DiningPhilosopher.c
 	$(CC) $? $(LIBS) -o $@
